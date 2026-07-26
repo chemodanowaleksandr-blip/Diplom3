@@ -5,12 +5,12 @@ from selenium import webdriver
 def driver(request):
     if request.param == "chrome":
         options = webdriver.ChromeOptions()
-        # options.add_argument("--headless") # Раскомментируй, если тесты будут падать в CI без экрана
-        driver = webdriver.webdriver.Chrome(options=options)
+        # options.add_argument("--headless")
+        driver = webdriver.Chrome(options=options)
     elif request.param == "firefox":
         options = webdriver.FirefoxOptions()
         # options.add_argument("--headless")
-        driver = webdriver.webdriver.Firefox(options=options)
+        driver = webdriver.Firefox(options=options)
     
     driver.set_window_size(1920, 1080)
     
