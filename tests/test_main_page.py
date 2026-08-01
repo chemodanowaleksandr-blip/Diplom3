@@ -2,6 +2,7 @@ import pytest
 import allure
 import data
 from pages.main_page import MainPage
+from pages.feed_page import FeedPage
 
 @allure.epic("Stellar Burgers UI")
 @allure.feature("Главная страница")
@@ -20,8 +21,10 @@ class TestMainPage:
     @allure.story("Успешный переход обратно в 'Конструктор' с другой страницы")
     def test_navigation_to_constructor_success(self, driver):
         main_page = MainPage(driver)
-        # Начинаем с Ленты заказов, чтобы проверить переход назад
-        driver.get(data.FEED_URL)
+        feed_page = FeedPage(driver)
+        
+        # Открываем Ленту через метод страницы, БЕЗ прямого driver.get()
+        feed_page.open_feed_page()
         
         main_page.click_constructor_button()
         
@@ -37,7 +40,7 @@ class TestMainPage:
         
         assert main_page.is_modal_details_visible(), "Модальное окно с деталями не открылось"
 
-    @allure.story("Закрытие модального окна ингредиента кликом на крестик")
+    @allure.story("Закрыть модальное окно ингредиента кликом на крестик")
     def test_close_modal_by_click_on_cross(self, driver):
         main_page = MainPage(driver)
         main_page.open_main_page()
@@ -45,6 +48,6 @@ class TestMainPage:
         main_page.click_first_ingredient()
         main_page.click_close_modal_button()
         
-        # Небольшая пауза, чтобы окно успело скрыться из DOM
+        # Небольшая пауза для анимации скрытия из DOM
         driver.implicitly_wait(1)
         assert not main_page.is_modal_details_visible(), "Модальное окно не закрылось"
