@@ -7,7 +7,8 @@ class FeedPage(BasePage):
 
     @allure.step("Открыть страницу Ленты заказов")
     def open_feed_page(self):
-        self.driver.get(data.FEED_URL)
+        # Используем метод базового класса БЕЗ прямого обращения к драйверу
+        self.open_url(data.FEED_URL)
 
     @allure.step("Получить текущее значение счётчика 'Выполнено за всё время'")
     def get_all_time_orders_count(self):
